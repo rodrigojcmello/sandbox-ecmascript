@@ -17,6 +17,11 @@ export default class Stack {
     return this.stack.length === 0;
   }
 
+  update(userId: number, status: Item['status']): void {
+    const index = this.stack.findIndex((item) => item.userId === userId);
+    this.stack[index].status = status;
+  }
+
   checkAvailability(value: Item): boolean {
     const hour = 60 * 60 * 1000;
 

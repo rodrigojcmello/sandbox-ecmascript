@@ -102,8 +102,7 @@ describe('Stacks', () => {
     stack.add(mock[3]);
     stack.removeByUserId(2);
 
-    // expect(stack.print()).toHaveLength(3);
-    console.log(stack.print());
+    expect(stack.print()).toHaveLength(3);
     expect(stack.print()).toEqual([mock[0], mock[1], mock[3]]);
   });
 
@@ -141,5 +140,19 @@ describe('Stacks', () => {
     expect(stack.print()).toHaveLength(4);
     expect(stack.print()).toEqual([mock[0], mock[3], mock[2], mock[1]]);
     expect(unavailable).toBeFalsy();
+  });
+
+  it('Update - change status', () => {
+    const stack = new Stack();
+
+    stack.add(mock[0]);
+    stack.add(mock[1]);
+    stack.add(mock[2]);
+    stack.add(mock[3]);
+    stack.update(2, 'approved');
+
+    expect(stack.print()).toHaveLength(4);
+    expect(stack.print()).toEqual([mock[0], mock[1], mock[2], mock[3]]);
+    expect(stack.print()[2].status).toEqual('approved');
   });
 });
