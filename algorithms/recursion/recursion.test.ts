@@ -6,22 +6,21 @@ describe('Recursion', () => {
 
     const stringToArray = (string: string): RecursiveArray => {
       let array: RecursiveArray = [];
-      let control = false;
 
-      for (let i = 0; i < string.length; i += 1) {
-        if (!control) {
-          if (string[i] === '(') {
-            control = true;
-            const stringRest = string.slice(i + 1);
+      let indexLimit = string.indexOf('(');
+      indexLimit = indexLimit === -1 ? string.length : indexLimit;
 
-            if (i === 0) {
-              array = stringToArray(stringRest);
-            } else {
-              array.push(stringToArray(stringRest));
-            }
-          } else if (Number(string[i]) >= 0 && string[i] !== ' ') {
-            array.push(Number(string[i]));
+      for (let i = 0; i <= indexLimit; i += 1) {
+        if (string[i] === '(') {
+          const recursiveValue = stringToArray(string.slice(i + 1));
+
+          if (i === 0) {
+            array = recursiveValue;
+          } else {
+            array.push(recursiveValue);
           }
+        } else if (string[i]?.match(/\d+/g)) {
+          array.push(Number(string[i]));
         }
       }
 
