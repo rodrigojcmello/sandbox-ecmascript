@@ -1,43 +1,19 @@
+import { stringToArray } from './recursion';
+
 describe('Recursion', () => {
-  it('String to array', () => {
-    const stringMock = '(1)';
-    const stringMock2 = '((1))';
-    const stringMock3 = '(((1)))';
-    const stringMock4 = '(1, (2))';
-    // const stringMock4 = '(((1), 2))';
+  it('String to array (1)', () => {
+    expect(stringToArray('(1)')).toEqual([1]);
+  });
 
-    type RecursiveArray = (number | RecursiveArray)[];
+  it('String to array ((1))', () => {
+    expect(stringToArray('((1))')).toEqual([[1]]);
+  });
 
-    const stringToArray = (string: string): RecursiveArray => {
-      let array: RecursiveArray = [];
+  it('String to array (((1)))', () => {
+    expect(stringToArray('(((1)))')).toEqual([[[1]]]);
+  });
 
-      let indexLimit = string.indexOf('(');
-      indexLimit = indexLimit === -1 ? string.length : indexLimit;
-
-      for (let i = 0; i <= indexLimit; i += 1) {
-        if (string[i] === '(') {
-          const start = i + 1;
-          const end = string.lastIndexOf(')');
-          const slice = string.slice(start, end);
-          const recursiveValue = stringToArray(slice);
-
-          if (slice[0] !== '(') {
-            array = recursiveValue;
-          } else {
-            array.push(recursiveValue);
-          }
-        } else if (string[i]?.match(/\d+/g)) {
-          array.push(Number(string[i]));
-        }
-      }
-
-      return array;
-    };
-
-    expect(stringToArray(stringMock)).toEqual([1]);
-    expect(stringToArray(stringMock2)).toEqual([[1]]);
-    expect(stringToArray(stringMock3)).toEqual([[[1]]]);
-    expect(stringToArray(stringMock4)).toEqual([[1, [2]]]);
-    // expect(stringToArray(stringMock4)).toEqual([[[1], 2]]);
+  it('String to array (1, (2))', () => {
+    expect(stringToArray('(1, (2))')).toEqual([[1, [2]]]);
   });
 });
