@@ -1,7 +1,10 @@
 describe('Recursion', () => {
   it('String to array', () => {
     const stringMock = '(1)';
-    const stringMock2 = '((1, 2))';
+    const stringMock2 = '((1))';
+    const stringMock3 = '(((1)))';
+    const stringMock4 = '(1, (2))';
+    // const stringMock4 = '(((1), 2))';
 
     type RecursiveArray = (number | RecursiveArray)[];
 
@@ -32,6 +35,9 @@ describe('Recursion', () => {
     };
 
     expect(stringToArray(stringMock)).toEqual([1]);
-    expect(stringToArray(stringMock2)).toEqual([[1, 2]]);
+    expect(stringToArray(stringMock2)).toEqual([[1]]);
+    expect(stringToArray(stringMock3)).toEqual([[[1]]]);
+    expect(stringToArray(stringMock4)).toEqual([[1, [2]]]);
+    // expect(stringToArray(stringMock4)).toEqual([[[1], 2]]);
   });
 });
