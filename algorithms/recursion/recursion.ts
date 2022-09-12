@@ -4,13 +4,13 @@ type RecursiveArray = (number | RecursiveArray)[];
 export const stringToArray = (string: string): RecursiveArray => {
   let array: RecursiveArray = [];
 
-  for (let i = 0; i <= string.length; i += 1) {
+  for (let i = 0; i < string.length; i += 1) {
     if (string[i] === '(') {
       let start = i + 1;
       let end = string.lastIndexOf(')');
       if (string.indexOf('(') > 0) {
         start -= 1;
-        end += 2;
+        end += 1;
       }
       const slice = string.slice(start, end);
       const recursiveValue = stringToArray(slice);
