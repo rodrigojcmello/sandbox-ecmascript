@@ -1,29 +1,47 @@
 type RecursiveArray = (number | RecursiveArray)[];
 
+function nextArray(string: string): string | null {
+  const start = string.indexOf('(');
+  const end = string.indexOf(')');
+
+  if (start === -1 || end === -1) {
+    return null;
+  }
+  return string.slice(start + 1, end);
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export const stringToArray = (string: string): RecursiveArray => {
-  let array: RecursiveArray = [];
+  const array: RecursiveArray = [];
 
   for (let i = 0; i < string.length; i += 1) {
     if (string[i] === '(') {
-      let start = i + 1;
-      let end = string.lastIndexOf(')');
-      if (string.indexOf('(') > 0) {
-        start -= 1;
-        end += 1;
-      }
-      const slice = string.slice(start, end);
-      const recursiveValue = stringToArray(slice);
-      i += end - start;
+      const start = i + 1;
+      const end = string.lastIndexOf(')');
 
-      if (slice[0] === '(') {
-        array.push(recursiveValue);
+      const slice = string.slice(start, end);
+
+      if (slice[0] !== '(') {
+        for (let j = 0; j < slice.length; j += 1) {
+          if (slice[j]?.match(/\d+/g)) {
+            array.push(Number(slice[i]));
+          } else if (slice[j] === '(') {
+            const sliceEnd = slice.lastIndexOf(')') + 1;
+            const newSlice = slice.slice(j, sliceEnd);
+            array.push(stringToArray(newSlice));
+            j = sliceEnd;
+          }
+        }
       } else {
-        array = recursiveValue;
+        const recursiveValue = stringToArray(slice);
+        array.push(recursiveValue);
       }
-    } else if (string[i]?.match(/\d+/g)) {
-      array.push(Number(string[i]));
+
+      i = end;
     }
+    // else if (string[i]?.match(/\d+/g)) {
+    //   array.push(Number(string[i]));
+    // }
   }
 
   return array;
