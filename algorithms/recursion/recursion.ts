@@ -28,7 +28,8 @@ export const stringToArray = (string: string): RecursiveArray => {
           } else if (slice[j] === '(') {
             const sliceEnd = slice.lastIndexOf(')') + 1;
             const newSlice = slice.slice(j, sliceEnd);
-            array.push(stringToArray(newSlice));
+            const recursiveValue = stringToArray(newSlice);
+            array.push(recursiveValue);
             j = sliceEnd;
           }
         }
@@ -39,9 +40,6 @@ export const stringToArray = (string: string): RecursiveArray => {
 
       i = end;
     }
-    // else if (string[i]?.match(/\d+/g)) {
-    //   array.push(Number(string[i]));
-    // }
   }
 
   return array;
